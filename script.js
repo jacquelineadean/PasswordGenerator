@@ -9,19 +9,29 @@ var passwordEl = document.querySelector("#password");
 var btngeneratorEl = document.querySelector("#generate");
 var btncopyEl = document.querySelector("#copy");
 
+var charLength = 0;
+
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-
-function generatePassword() {
+function checkChar() {
   //a prompt for how many characters the user would like
   //must be 8-128 characters 
   var charLength = prompt("How many characters would you like for your password to have?")
-    if (charLength < 8 && charLength > 128) {
-      alert("Please choose a number between 8 and 128.")
-      return;
-    };
+  if (charLength < 8 || charLength > 128) {
+    alert("Please choose a number between 8 and 128.")
+    return;
+  } 
+  console.log(charLength);
+  return charLength;
+}
+
+
+
+function generatePassword() {
+  checkChar();
+
   //ask the user if they want lowercase
   var lowerCase = confirm("Would you like to include lowercase letters?");
   //ask the user if they want uppercase
@@ -31,25 +41,31 @@ function generatePassword() {
   //ask the user if they want special characters 
   var specialChar = confirm("Would you like to include special characters?");
 
-  var type = [];
+  var types = [];
   var pass = [];
+  
 
   if (lowerCase == true) {
-    types.push(lowerCaseLetters);
-  } if (upperCase == true) {
-    types.push(upperCaseLetters);
-  } if (numericChars == true) {
-    types.push(numericCharacters);
-  } if (specialChar == true) {
-    types.push(specialCharacters);
+    types = types.concat(lowerCaseLetters);
+  }
+  if (upperCase == true) {
+    types = types.concat(upperCaseLetters);
+  }
+  if (numChar == true) {
+    types = types.concat(numericCharacters);
+  }
+  if (specialChar == true) {
+    types = types.concat(specialCharacters);
   }
 
-  for (i = 0; i < length; i++) {
+  for (i = 0; i < charLength; i++) {
     var randomType = types[Math.floor(Math.random() * types.length)];
     var random = randomType[Math.floor(Math.random() * randomType.length)];
     pass.push(random);
     console.log(random);
   }
+
+  console.log(pass);
 
   var passString = pass.join("");
   return passString;
