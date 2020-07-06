@@ -4,72 +4,57 @@ var specialCharacters = ["!", "$", "#", "%", "&", "(", ")", "*", "+", ",", "-", 
 var lowerCaseLetters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 var upperCaseLetters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
-//HTML elements
-var passwordEl = document.querySelector("#password");
-var btngeneratorEl = document.querySelector("#generate");
-var btncopyEl = document.querySelector("#copy");
-
-var charLength = 0;
-
+// Empty Arrays 
+var charLength = "";
+var types = [];
+var pass = [];
 
 // Assignment Code
 var generateBtn = document.querySelector("#generate");
 
-function checkChar() {
-  //a prompt for how many characters the user would like
-  //must be 8-128 characters 
-  var charLength = prompt("How many characters would you like for your password to have?")
-  if (charLength < 8 || charLength > 128) {
+// Function for prompts
+function promptCriteria() {
+  // a prompt for how many characters the user would like
+    // must be 8-128 characters
+    // store it in a variable
+  charLength = parseInt(prompt("How many characters would you like for your password to have?"));
+  if (isNaN(charLength) || charLength < 8 || charLength > 128) {
     alert("Please choose a number between 8 and 128.")
-    return;
-  } 
-  console.log(charLength);
-  return charLength;
-}
-
-
-
-function generatePassword() {
-  checkChar();
-
+    return false;
+  };
   //ask the user if they want lowercase
-  var lowerCase = confirm("Would you like to include lowercase letters?");
-  //ask the user if they want uppercase
-  var upperCase = confirm("Would you like to include uppercase letters?");
-  //ask the user if they want numeric
-  var numChar = confirm("Would you like to include numeric characters?");
-  //ask the user if they want special characters 
-  var specialChar = confirm("Would you like to include special characters?");
-
-  var types = [];
-  var pass = [];
-  
-
-  if (lowerCase == true) {
-    types = types.concat(lowerCaseLetters);
-  }
-  if (upperCase == true) {
+  if (confirm("Would you like your password to contain uppercase values?")) {
     types = types.concat(upperCaseLetters);
   }
-  if (numChar == true) {
+  //ask the user if they want uppercase
+  if (confirm("Would you like your password to contain lowercase values?")) {
+    types = types.concat(lowerCaseLetters);
+  }
+  //ask the user if they want numeric
+  if (confirm("Would you like your password to contain numbers?")) {
     types = types.concat(numericCharacters);
   }
-  if (specialChar == true) {
+  //ask the user if they want special characters 
+  if (confirm("Would you like your password to contain special characters?")) {
     types = types.concat(specialCharacters);
   }
+  return true;
+};
 
+// Function to generate the password based on the selected criteria
+function generatePassword() {
+  // prompts
+  promptCriteria();
+  // Randomly generate password
+  var password = "";
+  // For Loop to randomly select index 
   for (i = 0; i < charLength; i++) {
-    var randomType = types[Math.floor(Math.random() * types.length)];
-    var random = randomType[Math.floor(Math.random() * randomType.length)];
-    pass.push(random);
-    console.log(random);
+    var randomize =  (Math.floor(Math.random() * types.length));
+    console.log(randomize);
+    password += types[randomize];
   }
-
-  console.log(pass);
-
-  var passString = pass.join("");
-  return passString;
-}
+  return password;
+};
 
 // Write password to the #password input
 function writePassword() {
@@ -77,6 +62,7 @@ function writePassword() {
   var passwordText = document.querySelector("#password");
 
   passwordText.value = password;
+
 }
 
 // Add event listener to generate button
