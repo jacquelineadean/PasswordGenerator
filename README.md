@@ -29,4 +29,7 @@ CSS
 javaScript
 
 ## Demo 
+![Password](assets/PasswordGenerator.png)
 
+## Deployed Web Application
+https://jacquelineadean.github.io/PasswordGenerator/
